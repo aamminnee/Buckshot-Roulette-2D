@@ -2,6 +2,7 @@ import pygame
 from menu import Menu
 from game import Game
 from arme import Arme
+from map import Carte
 from cigarettes import Cigarette
 
 pygame.init()
@@ -19,7 +20,8 @@ jouer_texte = police.render("Jouer", 1, BLANC)
 regles_texte = police.render("Règles du jeu", 1, BLANC)
 quitter_texte = police.render("Quitter le jeu", 1, BLANC)
 
-# Créez une instance de la classe Menu
+# Créez une instance des différentes classes:
+map = Carte()
 menu = Menu()
 game = Game()
 arme = Arme((3, 3), [])
@@ -77,11 +79,14 @@ while run:
         menu.bouton_retour(fenetre)
     if game.playing:
         game.affichage_fond_noir(fenetre)
-        game.affichage_table(fenetre)
+        map.dessine_table(fenetre)
+        map.dessine_emplacement_atout(fenetre, 30, 165, 120, 70)
+        map.dessine_emplacement_atout(fenetre, 810, 165, 120, 70) 
+        map.dessine_emplacement_atout(fenetre, 30, 393, 120, 70) 
+        map.dessine_emplacement_atout(fenetre, 810, 393, 120, 70)  
         arme.recharge()
         arme.affichage_chargeur()
         arme.affichage_shotgun(fenetre)
-        cigarettes.affiche_cigarette(fenetre)
         menu.retour_playing = True
         menu.bouton_retour(fenetre)
 

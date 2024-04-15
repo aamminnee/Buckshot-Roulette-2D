@@ -34,25 +34,23 @@ class Arme:
         self.vie_joueur[cible] -= self.chargeur.pop(-1)
         return self.chargeur, self.vie_joueur
 
-    def affichage_blanche(self, fenetre, cord):
-        fenetre.blit(self.blanche, cord)
-
-    def affichage_rouge(self, fenetre, cord):
-        fenetre.blit(self.rouge, cord)
+    def affichage_balle(self, fenetre, cord, couleur):
+        pygame.draw.rect(fenetre, couleur, (cord, (8, 25)), 0)
+        pygame.draw.rect(fenetre, (0, 0, 0), ((cord[0], cord[-1] - 8), (8, 8)), 0)
 
     def affichage_shotgun(self, fenetre):
-        fenetre.blit(self.shotgun, (460, 300))
+        fenetre.blit(self.shotgun, (455, 330))
 
     def affichage_chargeur(self):
-        pos_y_b = 426
-        pos_y_r = 426 + (12 * self.chargeur.count(0)) + 5
+        pos_x_b = 492
+        pos_x_r = 492 + (12 * self.chargeur.count(0)) + 5
         nb_balles_blanche = self.chargeur.count(0) 
         for i in range(len(self.chargeur)):
             if i <= nb_balles_blanche - 1:
-                self.affichage_blanche(fenetre, (529, pos_y_b))
-                pos_y_b += 12
+                self.affichage_balle(fenetre, (pos_x_b, 574), (255, 255, 255))
+                pos_x_b += 12
             else:
-                self.affichage_rouge(fenetre, (529, pos_y_r))
-                pos_y_r += 12
+                self.affichage_balle(fenetre, (pos_x_r, 574), (255, 0, 0))
+                pos_x_r += 12
         
                 
