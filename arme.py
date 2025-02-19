@@ -4,20 +4,19 @@ fenetre = pygame.display.set_mode((1080, 720))
 
 class Arme:
 
-    def __init__(self, vie_joueur, chargeur):
+    def __init__(self):
         self.shotgun = pygame.image.load("./images/shotgun.png")
         self.shotgun = pygame.transform.scale(self.shotgun, (170, 50))
-        self.blanche = pygame.image.load("./images/blanche.png")
-        self.blanche = pygame.transform.scale(self.blanche, (69, 45))
-        self.blanche = pygame.transform.rotate(self.blanche, 90)
-        self.rouge = pygame.image.load("./images/rouge.png")        
-        self.rouge = pygame.transform.scale(self.rouge, (69, 45))
-        self.rouge = pygame.transform.rotate(self.rouge, 90)
-        self.vie_joueur = vie_joueur
-        self.chargeur = chargeur
+        self.shotgun_inverse = pygame.image.load("./images/shotgun_miroir.png")
+        self.shotgun_inverse = pygame.transform.scale(self.shotgun_inverse, (170, 50))
+        self.viseur = pygame.image.load("./images/viseur.png")
+        self.viseur = pygame.transform.scale(self.viseur, (50, 50))
+        self.chargeur = []
+        self.force_recharge = False
+        self.stop_tir = False
 
     def recharge(self):
-        if len(self.chargeur) == 0 or 0 in self.vie_joueur:
+        if len(self.chargeur) == 0 or self.force_recharge:
             self.chargeur = []
             capacite_chargeur = random.randint(2, 8)
             if capacite_chargeur == 2:
@@ -30,9 +29,8 @@ class Arme:
             print(self.chargeur)
         return self.chargeur
     
-    def tire(self, cible):
-        self.vie_joueur[cible] -= self.chargeur.pop(-1)
-        return self.chargeur, self.vie_joueur
+    def tire(self):
+        return self.chargeur.pop()
 
     def affichage_balle(self, fenetre, cord, couleur):
         pygame.draw.rect(fenetre, couleur, (cord, (8, 25)), 0)
@@ -40,6 +38,9 @@ class Arme:
 
     def affichage_shotgun(self, fenetre):
         fenetre.blit(self.shotgun, (455, 330))
+
+    def affichage_shotgun_miroir(self, fenetre):
+        fenetre.blit(self.shotgun_inverse, (455, 330))
 
     def affichage_chargeur(self):
         pos_x_b = 492
@@ -53,4 +54,16 @@ class Arme:
                 self.affichage_balle(fenetre, (pos_x_r, 574), (255, 0, 0))
                 pos_x_r += 12
         
-                
+    def bouton_viser(self, fenetre):
+        pos_x = 460
+        for _ in range(2):
+            fenetre.blit(self.viseur, (pos_x, 75))
+            pos_x += 112
+
+    def detect_tirer_j1(self):
+        if pygame.Rect(460, 75, 50, 50).collidepoint(pygame.mouse.get_pos()) and not self.stop_tir:
+            return True
+        
+    def detect_tirer_j2(self):
+        if pygame.Rect(576, 75, 50, 50).collidepoint(pygame.mouse.get_pos()) and not self.stop_tir:
+            return True

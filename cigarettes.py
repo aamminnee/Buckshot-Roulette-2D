@@ -6,7 +6,7 @@ class Cigarette:
         self.image = pygame.image.load("./images/cigarette.png")
         
     def fumer(self, vie_joueur):
-        X_aleatoire = random.randint(0, 2)
+        X_aleatoire = random.randint(1, 2)
         vie_joueur[X_aleatoire] += 1
         return vie_joueur
     

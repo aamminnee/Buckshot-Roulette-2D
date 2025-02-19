@@ -7,6 +7,7 @@ class Menu:
         self.flou_playing = False
         self.retour_playing = False
         self.regle_playing = False
+        self.playing = False
         self.background_flou = pygame.image.load("./images/background_flou.png")
         self.retour = pygame.image.load("./images/retour.png")
         self.regles = pygame.image.load("./images/regles.png")
